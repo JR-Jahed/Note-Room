@@ -20,6 +20,6 @@ data class User(
     @ColumnInfo(name = "password")
     var password : String = "",
 
-//    @ColumnInfo(name = "note")
-//    var notes : String = ""
+    @ColumnInfo(name = "note")
+    var notes : String = ""
 )

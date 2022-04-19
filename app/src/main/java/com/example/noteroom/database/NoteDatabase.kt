@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 @Database(entities = [User::class], version = 1)
+@TypeConverters(Converter::class)
 
 abstract class NoteDatabase : RoomDatabase() {
 
@@ -21,6 +23,8 @@ abstract class NoteDatabase : RoomDatabase() {
 
                 if(instance == null) {
                     instance = Room.databaseBuilder(context.applicationContext, NoteDatabase::class.java, "note_database")
+                        //.fallbackToDestructiveMigration()
+                        //.addTypeConverter(converter)
                         .build()
                 }
 

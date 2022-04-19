@@ -18,6 +18,9 @@ interface NoteDao {
     @Query("select * from user_table where email = :email and password = :password")
     suspend fun getUser(email : String, password : String) : User
 
+    @Query("select * from user_table where id = :id")
+    suspend fun getUserById(id : Int) : User
+
     @Query("select * from user_table")
     suspend fun getAllUser() : List<User>
 

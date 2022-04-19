@@ -16,5 +16,7 @@ class NoteRepository(application : Application) {
 
     suspend fun getUser(email : String, password : String) = noteDao.getUser(email, password)
 
+    suspend fun getUserById(id : Int) = noteDao.getUserById(id)
+
     suspend fun deleteById(id : Int) = noteDao.deleteById(id)
 }
