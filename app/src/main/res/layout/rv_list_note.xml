@@ -5,10 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -19,6 +21,7 @@
             app:cardCornerRadius="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cli"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

@@ -3,18 +3,20 @@ package com.example.noteroom
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteroom.adapters.NoteRecyclerViewAdapter
+import com.example.noteroom.database.HomeViewModel
 import com.example.noteroom.databinding.ActivityHomeBinding
 import com.example.noteroom.db_logged_in.UserViewModel
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), NoteRecyclerViewAdapter.ClickListener {
 
     private lateinit var binding : ActivityHomeBinding
     private lateinit var adapter : NoteRecyclerViewAdapter
     private lateinit var userViewModel : UserViewModel
+    private lateinit var homeViewModel: HomeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,12 @@ class HomeActivity : AppCompatActivity() {
         populateRecyclerView()
 
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
+
+        viewModelObserver()
+        userViewModel.getUser()
+
+        //homeViewModel.getNotes(id)
 
         binding.fabAddNote.setOnClickListener {
             startActivity(Intent(this, AddNoteActivity::class.java))
@@ -38,6 +46,26 @@ class HomeActivity : AppCompatActivity() {
         adapter = NoteRecyclerViewAdapter()
         binding.rvUser.adapter = adapter
         binding.rvUser.layoutManager = LinearLayoutManager(this)
+        adapter.setListener(this)
     }
 
+    private fun viewModelObserver() {
+        userViewModel.userLoggedIn.observe(this) {
+            homeViewModel.getNotes(it.id)
+        }
+
+        homeViewModel.notes.observe(this) { notes ->
+            adapter.notes = notes
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onRemoveButtonClicked(position: Int) {
+        Log.d("jahed", "onremove clicked")
+    }
+
+    override fun onNoteClicked(position: Int) {
+        startActivity(Intent(this, ShowNoteActivity::class.java).putExtra("noteTitle", adapter.notes[position].title)
+            .putExtra("noteContent", adapter.notes[position].content))
+    }
 }

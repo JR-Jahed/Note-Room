@@ -1,5 +1,6 @@
 package com.example.noteroom.database
 
+import android.util.Log
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
@@ -22,6 +23,8 @@ class Converter {
         val gson = Gson()
 
         var jsonString = st
+
+        //Log.d("jahed", "$jsonString   ${jsonString.length}")
 
         if(jsonString == "") {
             jsonString = gson.toJson(mutableListOf<Note>())

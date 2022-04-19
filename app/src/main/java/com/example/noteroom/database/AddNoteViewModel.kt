@@ -22,7 +22,7 @@ class AddNoteViewModel(application: Application) : AndroidViewModel(application)
     fun saveNote(id : Int, note: Note) = CoroutineScope(IO).launch {
         val cur_user = repository.getUserById(id)
 
-        Log.d("jahed", "line 44  $cur_user")
+        //Log.d("jahed", "line 44  $cur_user")
 
         var notes  = cur_user.notes
 

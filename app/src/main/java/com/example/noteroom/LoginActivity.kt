@@ -3,7 +3,6 @@ package com.example.noteroom
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.example.noteroom.database.LoginViewModel
 import com.example.noteroom.databinding.ActivityLoginBinding
@@ -25,7 +24,6 @@ class LoginActivity : AppCompatActivity() {
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
 
         viewModel.user.observe(this) {
-            Log.d("jahed", "loginacti line 28  $it")
             userViewModel.insert(UserLoggedIn(it.id))
             startActivity(Intent(this, HomeActivity::class.java))
             finishAffinity()
