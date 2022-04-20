@@ -27,4 +27,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             notes.postValue(notesList)
         }
     }
+
+    fun removeNote(userId : Int, noteIdx : Int) = CoroutineScope(IO).launch {
+        val user = repository.getUserById(userId)
+
+        val converter = Converter()
+
+        var notesList = converter.fromStringToList(user.notes)
+        notesList.removeAt(noteIdx)
+
+        user.notes = converter.fromListToString(notesList)
+
+        repository.update(user)
+
+        withContext(Dispatchers.Main) {
+            notes.postValue(notesList)
+        }
+    }
 }

@@ -3,7 +3,6 @@ package com.example.noteroom
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteroom.adapters.NoteRecyclerViewAdapter
@@ -17,6 +16,7 @@ class HomeActivity : AppCompatActivity(), NoteRecyclerViewAdapter.ClickListener 
     private lateinit var adapter : NoteRecyclerViewAdapter
     private lateinit var userViewModel : UserViewModel
     private lateinit var homeViewModel: HomeViewModel
+    private var id : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +52,7 @@ class HomeActivity : AppCompatActivity(), NoteRecyclerViewAdapter.ClickListener 
     private fun viewModelObserver() {
         userViewModel.userLoggedIn.observe(this) {
             homeViewModel.getNotes(it.id)
+            id = it.id
         }
 
         homeViewModel.notes.observe(this) { notes ->
@@ -61,7 +62,10 @@ class HomeActivity : AppCompatActivity(), NoteRecyclerViewAdapter.ClickListener 
     }
 
     override fun onRemoveButtonClicked(position: Int) {
-        Log.d("jahed", "onremove clicked")
+        homeViewModel.removeNote(id, position)
+
+        adapter.notifyItemRemoved(position)
+        adapter.notifyItemRangeChanged(position, adapter.notes.size)
     }
 
     override fun onNoteClicked(position: Int) {
